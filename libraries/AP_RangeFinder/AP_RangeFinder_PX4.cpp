@@ -82,6 +82,7 @@ AP_RangeFinder_PX4::~AP_RangeFinder_PX4()
 int AP_RangeFinder_PX4::open_driver(void)
 {
     // work out the device path based on how many PX4 drivers we have loaded
+    hal.console->printf("In AP_RangeFinder_PX4::open_driver");
     char path[] = RANGE_FINDER_BASE_DEVICE_PATH "n";
     path[strlen(path)-1] = '0' + num_px4_instances;
     return open(path, O_RDONLY);

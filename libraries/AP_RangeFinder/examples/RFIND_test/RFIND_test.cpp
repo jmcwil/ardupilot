@@ -16,14 +16,15 @@ void setup()
     hal.console->println("Range Finder library test");
 
     // setup for analog pin 13
-    AP_Param::set_object_value(&sonar, sonar.var_info, "_TYPE", RangeFinder::RangeFinder_TYPE_PLI2C);
-    AP_Param::set_object_value(&sonar, sonar.var_info, "_PIN", -1);
-    AP_Param::set_object_value(&sonar, sonar.var_info, "_SCALING", 1.0);
-
+    AP_Param::set_object_value(&sonar, sonar.var_info, "_TYPE", RangeFinder::RangeFinder_TYPE_ANALOG);
+    AP_Param::set_object_value(&sonar, sonar.var_info, "_PIN", 15);  //Pixhawk Airspeed port
+    AP_Param::set_object_value(&sonar, sonar.var_info, "_SCALING", 2.04);
     // initialise sensor, delaying to make debug easier
     hal.scheduler->delay(2000);
     sonar.init();
+    hal.scheduler->delay(3000);
     hal.console->printf("RangeFinder: %d devices detected\n", sonar.num_sensors());
+    hal.scheduler->delay(5000);
 }
 
 void loop()

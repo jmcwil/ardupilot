@@ -489,6 +489,8 @@ void RangeFinder::detect_instance(uint8_t instance)
         type == RangeFinder_TYPE_MBI2C) {
         // I2C sensor types are handled by the PX4Firmware code
         type = RangeFinder_TYPE_PX4;
+        hal.console->printf("Detected PX4 Rangefinder %d\n", type);
+        hal.scheduler->delay(5000);
     }
 #endif
     if (type == RangeFinder_TYPE_PLI2C) {
@@ -496,6 +498,7 @@ void RangeFinder::detect_instance(uint8_t instance)
     }
     if (type == RangeFinder_TYPE_MBI2C) {
         _add_backend(AP_RangeFinder_MaxsonarI2CXL::detect(*this, instance, state[instance]));
+        hal.console->printf("Added backend for MaxSonar");
     }
     if (type == RangeFinder_TYPE_LWI2C) {
         if (_address[instance]) {
@@ -508,7 +511,11 @@ void RangeFinder::detect_instance(uint8_t instance)
         if (AP_RangeFinder_PX4::detect(*this, instance)) {
             state[instance].instance = instance;
             drivers[instance] = new AP_RangeFinder_PX4(*this, instance, state[instance]);
+            hal.console->printf("State is %d \n", state[instance].instance);
             return;
+        }
+        else {
+            hal.console->printf("Detect was false");
         }
     }
     if (type == RangeFinder_TYPE_PX4_PWM) {

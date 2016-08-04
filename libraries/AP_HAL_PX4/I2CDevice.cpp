@@ -19,14 +19,20 @@
 
 #include "Util.h"
 
-namespace PX4 {
+using namespace PX4;
 
-uint8_t PX4::PX4_I2C::instance;
+PX4I2CDevice::PX4I2CDevice(void)
+{
+    px4_i2c = new PX4_I2C(PX4_I2C_BUS_EXPANSION);
+    if (px4_i2c == nullptr) {
+        AP_HAL::panic("Unable to allocate PX4 I2C driver");
+    }
+}
 
 /*
   implement wrapper for PX4 I2C driver
  */
-bool PX4_I2C::do_transfer(uint8_t address, const uint8_t *send, uint32_t send_len, uint8_t *recv, uint32_t recv_len)
+bool PX4I2CDevice::do_transfer(uint8_t address, const uint8_t *send, uint32_t send_len, uint8_t *recv, uint32_t recv_len)
 {
     if (!init_done) {
         init_done = true;

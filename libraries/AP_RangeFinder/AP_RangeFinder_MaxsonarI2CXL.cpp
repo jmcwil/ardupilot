@@ -50,6 +50,7 @@ AP_RangeFinder_MaxsonarI2CXL::AP_RangeFinder_MaxsonarI2CXL(RangeFinder &_ranger,
 AP_RangeFinder_Backend *AP_RangeFinder_MaxsonarI2CXL::detect(RangeFinder &_ranger, uint8_t instance,
                                                              RangeFinder::RangeFinder_State &_state)
 {
+    hal.console->printf("In detect function");
     AP_RangeFinder_MaxsonarI2CXL *sensor
         = new AP_RangeFinder_MaxsonarI2CXL(_ranger, instance, _state);
     if (!sensor || !sensor->start_reading()) {
